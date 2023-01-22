@@ -1,0 +1,16 @@
+
+Implementare loader in C:
+
+1.Am alocat pentru fiecare segment un vector in care sa pastrez evidenta paginilor mapate in memorie.
+Vectorul poate fi indexat prin numarul de pagina, care se obtine prin impartirea adresei relative ( adresa
+la care a aparut Fault - adresa virtuala de inceput a segmentului impartita la dim unui segmet ).
+Daca intrarea corespunzatoare paginii este 0 atunci aceasta nu este mapata in memorie, altfel valoarea este 1.
+
+2.Handle: 
+  Verificam din carui segment ii apartine pagina comparand adresa virtuala cu capetele segmentului.Daca segmentul
+nu este valid aplicam handler default, sau daca pagina este mapata.
+  Maparea paginii: Segmentul poate fi mai mare in memorie decat in fisier, bss nu contine date in fisierul obiect, se intializeaza la run-time.
+  Dimensiunea in memorie a segmentului este mai mare decat in fisier:
+  I.Dimensiunea este mai mare dar nr de pagini este egal:Trebuie tratat cazul in care se mapeaza ultima pagina,
+  se va initializa cu 0 mem in plus
+  II.Paginile in plus se mapeaza cu MAP_ANONYMOUS ( initializate cu 0), ultima pagina in comun se trateaza ca in cazul anterior.
